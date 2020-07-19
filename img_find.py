@@ -1,5 +1,10 @@
+#!/usr/bin/python3
+
 import re, requests
 from bs4 import BeautifulSoup
+from datetime import datetime
+
+start = datetime.now()
 
 url = 'https://www.linux.org.ru/gallery/archive'
 domen = 'https://www.linux.org.ru'
@@ -27,3 +32,5 @@ for i in names:
     for n in get_refs(i):
         if re.search(regex_img, n):
             print(n)
+
+print(datetime.now() - start)
