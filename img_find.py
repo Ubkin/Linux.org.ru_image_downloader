@@ -3,7 +3,7 @@
 import re, requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-
+#
 start = datetime.now()
 
 url = 'https://www.linux.org.ru/gallery/archive'
