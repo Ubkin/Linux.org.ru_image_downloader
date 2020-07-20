@@ -1,6 +1,8 @@
 import re, requests
 from bs4 import BeautifulSoup as bs
 
+#List of LOR images
+
 images = []
 url = 'https://www.linux.org.ru/gallery/archive'
 domen = 'https://www.linux.org.ru'
