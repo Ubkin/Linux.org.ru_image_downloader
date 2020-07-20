@@ -1,36 +1,23 @@
-#!/usr/bin/python3
-
 import re, requests
-from bs4 import BeautifulSoup
-from datetime import datetime
-#
-start = datetime.now()
+from bs4 import BeautifulSoup as bs
 
+images = []
 url = 'https://www.linux.org.ru/gallery/archive'
 domen = 'https://www.linux.org.ru'
-
 regex = r'/gallery/archive/\d+/\d+'
 regex_img = r'https://www.linux.org.ru/images/\d+/original.jpg'
 
-names = []
-
-def get_refs(url):
+def get_links(url):
     response = requests.get(url).text
-    refs = BeautifulSoup(response, 'lxml').find_all('a', href=True)
-    return [ref for ref in [x.get('href') for x in refs]]
+    refs = bs(response, 'lxml').find_all('a', href=True)
+    return [x.get('href') for x in refs]
 
-def search(text, regex):
-    return [x for x in text if re.search(regex, str(x))]
+def search(url, regex):
+    return [x for x in url if re.search(regex, x)]
 
-for date in get_refs(url):
-    tmp = domen + str(date)
-    names.append(tmp)
+for month in [domen + link for link in search(get_links(url), regex)]:
+    for image in search(get_links(month), regex_img):
+        images.append(image)
 
-names = search(names, regex)
-
-for i in names:
-    for n in get_refs(i):
-        if re.search(regex_img, n):
-            print(n)
-
-print(datetime.now() - start)
+for i in set(images):
+    print(i)
